@@ -1,0 +1,44 @@
+.images-example {
+  display: flex;
+  gap: 15px;
+  margin-top: 32px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+}
+.image-container img {
+  transition: border-color 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.image-container img.selected {
+  border-color: red;
+}
+.images-example img {
+  height: 98px; /* altura fija */
+  width: auto; /* mantiene proporción */
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: border 0.2s;
+}
+
+.image-buttons {
+  position: absolute;
+  margin-top: 119px;
+  gap: 8px;
+}
+.image-buttons button {
+  padding: 5px;
+  border: 1px solid blue;
+  border-radius: 5px;
+}
+.buttons-img button {
+  padding: 5px;
+}

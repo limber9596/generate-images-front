@@ -1,0 +1,108 @@
+.content-generate {
+  margin-top: 40px;
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+}
+.content-text {
+  display: inline-flex;
+  padding: 30px;
+  background: linear-gradient(
+    to right,
+    #6c5b7b,
+    #355c7d
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  gap: 30px;
+  border: 1px solid #b1b2d0;
+}
+label {
+  color: aliceblue;
+}
+.title-img-mask {
+  color: aliceblue;
+  font-size: 20px;
+}
+.input-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.prompt-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #7f6080;
+  color: white;
+}
+
+.generate-button {
+  padding: 12px 20px;
+  background-color: #6e68bb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border: 1px solid #b1b2d0;
+}
+
+.generate-button:hover {
+  background-color: #514d8d;
+}
+
+.generated-image {
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  width: auto;
+  border: 1px solid #b1b2d0;
+  height: 298px;
+}
+
+.download-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #9d68bb;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin-top: 10px;
+  border: 1px solid #b1b2d0;
+}
+
+.download-button:hover {
+  background-color: #6f4a85;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.upload-file {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.upload-file button {
+  padding: 7px;
+}
+
+/*/////////////////////////imagen grande del boceto */
+.preview-mask {
+  display: flex;
+  align-items: center;
+}
+.preview-mask img {
+  width: auto;
+  height: 270px;
+  border-radius: 5px;
+}

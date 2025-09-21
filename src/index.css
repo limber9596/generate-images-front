@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Opcional: asegura que el body no tenga estilos extra */
+body {
+  margin: 0;
+  padding: 0;
+}
