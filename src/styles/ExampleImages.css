@@ -1,44 +1,60 @@
 .images-example {
   display: flex;
-  gap: 15px;
-  margin-top: 32px;
-  align-items: flex-start;
-  position: relative;
+  justify-content: center; /* o flex-start si quieres alineado a la izquierda */
+  gap: 12px;
 }
 
 .image-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 8px;
+  position: relative;
 }
+
 .image-container img {
   transition: border-color 0.3s ease;
   border: 3px solid transparent;
+  max-width: 100%;
+  height: auto;
 }
 
 .image-container img.selected {
-  border-color: red;
+  border-color: #c260ca;
 }
 .images-example img {
-  height: 98px; /* altura fija */
+  height: 94px; /* altura fija */
   width: auto; /* mantiene proporción */
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   border-radius: 8px;
   transition: border 0.2s;
 }
-
+img.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* //////////////////////////////para desmaracar la imagen de ejemplo */
 .image-buttons {
   position: absolute;
-  margin-top: 119px;
-  gap: 8px;
+  right: -5px;
 }
 .image-buttons button {
-  padding: 5px;
-  border: 1px solid blue;
+  padding: 2px 4px;
+  border: 1px solid aliceblue;
   border-radius: 5px;
+  background: #c260ca;
+  color: aliceblue;
+  font-size: 20px;
 }
+.image-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.image-buttons button:hover:enabled {
+  cursor: pointer;
+}
+/* ////////////////////////////////////////////77 */
 .buttons-img button {
   padding: 5px;
 }

@@ -1,11 +1,14 @@
+import { useEffect } from "react";
 import "../styles/ExampleImages.css";
 export default function ExampleImages({
   image,
   selectedImage,
   handleSelect,
   handleDeselect,
+  imageUrl,
 }) {
   const isSelected = selectedImage?.src === image.src;
+  const isDisabled = !!imageUrl;
 
   return (
     <div className="image-container">
@@ -13,13 +16,17 @@ export default function ExampleImages({
       <img
         src={image.src}
         alt={image.alt}
-        onClick={() => handleSelect(image)}
-        className={isSelected ? "selected" : ""}
+        onClick={() => !isDisabled && handleSelect(image)}
+        className={`${isSelected ? "selected" : ""} ${
+          isDisabled ? "disabled" : ""
+        }`}
       />
 
       {isSelected && (
         <div className="image-buttons">
-          <button onClick={handleDeselect}>Desmarcar</button>
+          <button onClick={handleDeselect} disabled={!!imageUrl}>
+            ✖
+          </button>
         </div>
       )}
     </div>

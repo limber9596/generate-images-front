@@ -6,17 +6,20 @@ import "../styles/Generator.css";
 
 export default function Generator({
   selected,
-  setSelected,
   setPromptText,
   setPromptMask,
   promptText,
   promptMask,
   imageUrl,
   setImageUrl,
+  setSelectedImage,
+  selectedImage,
+  file,
+  setFile,
+  downloadImage,
+  previewUrl,
+  setPreviewUrl,
 }) {
-  const [file, setFile] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
   const inputRef = useRef();
 
   const images = [
@@ -43,7 +46,7 @@ export default function Generator({
   const handleDeselect = () => setSelectedImage(null);
 
   return (
-    <div>
+    <>
       {selected === "mask" && (
         <div className="images-example">
           {images.map((image) => (
@@ -54,31 +57,36 @@ export default function Generator({
               file={file}
               handleSelect={handleSelect}
               handleDeselect={handleDeselect}
+              imageUrl={imageUrl}
             />
           ))}
         </div>
       )}
 
-      <div>
-        {selected === "text" && (
-          <TextToImage prompt={promptText} setPrompt={setPromptText} />
-        )}
-        {selected === "mask" && (
-          <ImgToImgMask
-            prompt={promptMask}
-            file={file}
-            setPrompt={setPromptMask}
-            setFile={setFile}
-            setSelectedImage={setSelectedImage}
-            selectedImage={selectedImage}
-            previewUrl={previewUrl}
-            setPreviewUrl={setPreviewUrl}
-            inputRef={inputRef}
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-          />
-        )}
-      </div>
-    </div>
+      {selected === "text" && (
+        <TextToImage
+          prompt={promptText}
+          setPrompt={setPromptText}
+          downloadImage={downloadImage}
+        />
+      )}
+
+      {selected === "mask" && (
+        <ImgToImgMask
+          prompt={promptMask}
+          file={file}
+          setPrompt={setPromptMask}
+          setFile={setFile}
+          setSelectedImage={setSelectedImage}
+          selectedImage={selectedImage}
+          previewUrl={previewUrl}
+          setPreviewUrl={setPreviewUrl}
+          inputRef={inputRef}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          downloadImage={downloadImage}
+        />
+      )}
+    </>
   );
 }

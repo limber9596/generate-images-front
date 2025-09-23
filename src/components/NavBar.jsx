@@ -1,5 +1,6 @@
 import "../styles/NavBar.css";
 import React, { useEffect } from "react";
+import Dropdown from "./DropDown";
 export default function NavBar({
   selected,
   setSelected,
@@ -28,7 +29,7 @@ export default function NavBar({
     <nav className="nav">
       <button
         onClick={() => setSelected("text")}
-        className={`nav-button${selected === "text" ? " active" : ""}`}
+        className={`nav-button${selected === "text" ? " active" : ""} `}
         disabled={!!imageUrl}
       >
         Texto
@@ -41,21 +42,15 @@ export default function NavBar({
         Boceto
       </button>
 
-      <div className="examples-dropdown">
-        <select
-          className="dropdown-select"
-          value={selected === "text" ? promptText : promptMask} // <--- control
-          onChange={(e) => {
-            if (selected === "text") setPromptText(e.target.value);
-            else setPromptMask(e.target.value);
-          }}
-        >
-          <option value="">Ejemplos de prompt</option>
-          {examplePrompts.map((prompt) => (
-            <option value={prompt}>{prompt}</option>
-          ))}
-        </select>
-      </div>
+      <Dropdown
+        examplePrompts={examplePrompts}
+        selected={selected}
+        setPromptText={setPromptText}
+        setPromptMask={setPromptMask}
+        imageUrl={imageUrl}
+        promptText={promptText}
+        promptMask={promptMask}
+      />
     </nav>
   );
 }

@@ -73,32 +73,23 @@ export default function TextToImage({ prompt, setPrompt }) {
     }
   };
   return (
-    <div className="content-generate">
-      <div className="content-text">
-        <div className="info-box">
-          <div className="input-button-wrapper">
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Escribe tu prompt"
-              className="prompt-input"
-              rows={7}
-            ></textarea>
-            <button onClick={generateImage} className="generate-button">
-              Generar
-            </button>
-          </div>
-        </div>
-
-        <div className="image-generated-box">
-          {imageUrl && (
-            <>
-              <img src={imageUrl} alt="Generada" className="generated-image" />
-              <button onClick={downloadImage} className="download-button">
-                Descargar
-              </button>
-            </>
-          )}
+    <div className="content-text">
+      <div className="info-box">
+        <div className="input-button-wrapper">
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="Escribe tu prompt"
+            className="prompt-input"
+            rows={7}
+          ></textarea>
+          <button
+            onClick={generateImage}
+            className="generate-button"
+            disabled={!!imageUrl || !prompt}
+          >
+            Generar
+          </button>
         </div>
       </div>
     </div>

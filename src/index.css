@@ -9,3 +9,10 @@ body {
   margin: 0;
   padding: 0;
 }
+
+:root {
+  --bg-home: linear-gradient(to right, #c06c84, #6c5b7b, #355c7d);
+  --bg-generate: linear-gradient(to right, #6c5b7b, #355c7d);
+  --color-blue-1: #287b9b;
+  --color-purple-1: #9d68bb;
+}

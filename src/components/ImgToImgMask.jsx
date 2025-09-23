@@ -10,8 +10,6 @@ export default function ImgToImgMask({
   setFile,
   setSelectedImage,
   selectedImage,
-  previewUrl,
-  setPreviewUrl,
   inputRef,
   imageUrl,
   setImageUrl,
@@ -74,105 +72,54 @@ export default function ImgToImgMask({
     }
   };
 
-  const downloadImage = async () => {
-    if (!imageUrl) return;
-
-    try {
-      const response = await axios.get(imageUrl, {
-        responseType: "blob", // importante
-      });
-
-      const blob = new Blob([response.data], { type: "image/png" });
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "imagen_generada.png";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error descargando la imagen:", error);
-    }
-  };
   //////////////////////////////////////////////////////
   const handleClick = () => {
     inputRef.current.click(); // simula clic en el input escondido
   };
-
   return (
     <div className="content-generate">
-      <div className="content-text">
-        <div className="info-box">
-          <div className="input-button-wrapper">
-            <label className="title-img-mask">Imagen de boceto</label>
-            <input
-              ref={inputRef}
-              type="file"
-              style={{ display: "none" }} //para ocultar el input
-              onChange={(e) => {
-                setFile(e.target.files[0]);
-                setSelectedImage(null); // limpiamos la imagen predefinida
-              }}
-            />
-            <div className="upload-file">
-              <button type="button" onClick={handleClick}>
-                Subir archivo
-              </button>
-              {/* Mostramos el nombreu si existe un archivo */}
-              {file && <span>{file.name}</span>}
-            </div>
-
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Escribe tu prompt "
-              className="prompt-input"
-              rows={5} // ajusta la altura
-            ></textarea>
-
-            <button
-              onClick={generateImageMask}
-              className="generate-button"
-              disabled={(!selectedImage && !prompt) || (!file && !prompt)}
-            >
-              Generar
-            </button>
-          </div>
+      <div className="content-data">
+        <label className="title-img-mask">Imagen de boceto</label>
+        <input
+          ref={inputRef}
+          type="file"
+          style={{ display: "none" }} //para ocultar el input
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            setSelectedImage(null); // limpiamos la imagen predefinida
+          }}
+        />
+        <div className="upload-file">
+          <button type="button" onClick={handleClick} disabled={!!imageUrl}>
+            Subir archivo
+          </button>
+          {/* Mostramos el nombreu si existe un archivo */}
+          {file && <span>{file.name}</span>}
         </div>
+
+        <textarea
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="Escribe tu prompt "
+          className="prompt-input"
+          rows={5} // ajusta la altura
+          disabled={!!imageUrl}
+        ></textarea>
+
+        <button
+          onClick={generateImageMask}
+          className={`generate-button ${
+            (!selectedImage && !prompt) || (!file && !prompt) || imageUrl
+              ? "generate-button-disabled"
+              : ""
+          }`}
+          disabled={
+            (!selectedImage && !prompt) || (!file && !prompt) || imageUrl
+          }
+        >
+          Generar
+        </button>
       </div>
-      {/* ////////////////////////////////imagen generada */}
-      <div className="image-generated-box">
-        {imageUrl && (
-          <>
-            <img src={imageUrl} alt="Generada" className="generated-image" />
-            <button onClick={downloadImage} className="download-button">
-              Descargar
-            </button>
-            <button
-              onClick={() => {
-                setFile(null);
-                setSelectedImage(null);
-                setPreviewUrl(null);
-                setImageUrl(null);
-              }}
-              className="reset-button"
-            >
-              Generar otra
-            </button>
-          </>
-        )}
-      </div>
-      {/* ////////////////////////////////////preview de imagen subida o selecionada */}
-      {(file || selectedImage) && !imageUrl && (
-        <div className="preview-mask">
-          <img
-            src={file ? previewUrl : selectedImage.src}
-            alt={file ? file.name : selectedImage.alt}
-          />
-        </div>
-      )}
     </div>
   );
 }

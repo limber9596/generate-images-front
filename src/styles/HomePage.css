@@ -1,15 +1,19 @@
 .content-home {
   padding: 40px;
-  background: #355c7d; /* fallback for old browsers */
-  background: linear-gradient(
-    to right,
-    #c06c84,
-    #6c5b7b,
-    #355c7d
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #355c7d;
+  background: var(--bg-home);
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
 }
-
+.home {
+  width: 368px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .title {
   color: aliceblue;
 }
