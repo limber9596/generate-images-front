@@ -1,8 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useLoading } from "../context/LoadingContext";
-import { useMessage } from "../context/MessageContext";
-import axios from "axios";
-
 export default function ImgToImgMask({
   prompt,
   setPrompt,
@@ -13,68 +8,18 @@ export default function ImgToImgMask({
   inputRef,
   imageUrl,
   setImageUrl,
+  setIsModalOpen,
 }) {
-  const apiUrl = import.meta.env.VITE_API_URL;
-  // const [imageSrc, setImageSrc] = useState(null);
-  // const [imageUrl, setImageUrl] = useState("./exa.png");
-
-  const { setLoading } = useLoading();
-  const { showMessage } = useMessage();
-
-  ///////////////////////////////////////////////
-  const generateImageMask = async () => {
-    setLoading(true);
-    if (!prompt) return showMessage("Escribe un prompt");
-    if (!file && !selectedImage) return showMessage("Debes subir una imagen");
-    setImageUrl("");
-
-    try {
-      const formData = new FormData();
-      formData.append("prompt", prompt);
-      if (file) {
-        formData.append("boceto", file); // archivo subido
-      } else if (selectedImage) {
-        const response = await fetch(selectedImage.src);
-        const blob = await response.blob();
-        const fakeFile = new File([blob], selectedImage.alt + ".png", {
-          type: blob.type,
-        });
-        formData.append("boceto", fakeFile);
-      }
-
-      const response = await axios.post(
-        `${apiUrl}/generate-image-mask`,
-        formData, // aquí va directo el formData
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      const data = response.data;
-      console.log("Respuesta del backend:", data);
-
-      if (data.imageUrl) {
-        setImageUrl(data.imageUrl);
-      } else {
-        alert("Error generando imagen con máscara");
-      }
-    } catch (error) {
-      console.error(error);
-      if (error.response) {
-        showMessage(error.response.data.msg);
-      } else {
-        showMessage("No se pudo conectar con el servidor.");
-      }
-    } finally {
-      setLoading(false);
-    }
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    console.log("propmt seleccionado:", prompt);
+    console.log("Imaggn seleccionada:", selectedImage);
+    console.log("Archivo seleccionado:", file);
+    console.log("URL de la imagen:", imageUrl);
   };
-
   //////////////////////////////////////////////////////
   const handleClick = () => {
-    inputRef.current.click(); // simula clic en el input escondido
+    inputRef.current.click(); // simula clic en el input escondid
   };
   return (
     <div className="content-generate">
@@ -90,11 +35,27 @@ export default function ImgToImgMask({
           }}
         />
         <div className="upload-file">
-          <button type="button" onClick={handleClick} disabled={!!imageUrl}>
-            Subir archivo
+          <button
+            className="upload-button"
+            type="button"
+            onClick={handleClick}
+            disabled={!!imageUrl}
+          >
+            {file ? "Archivo subido" : "Subir archivo"}
           </button>
-          {/* Mostramos el nombreu si existe un archivo */}
-          {file && <span>{file.name}</span>}
+
+          {file && (
+            <span>
+              {file.name}{" "}
+              <button
+                type="button"
+                className="remove-file"
+                onClick={() => setFile(null)}
+              >
+                ❌
+              </button>
+            </span>
+          )}
         </div>
 
         <textarea
@@ -107,7 +68,7 @@ export default function ImgToImgMask({
         ></textarea>
 
         <button
-          onClick={generateImageMask}
+          onClick={handleOpenModal}
           className={`generate-button ${
             (!selectedImage && !prompt) || (!file && !prompt) || imageUrl
               ? "generate-button-disabled"
@@ -117,7 +78,7 @@ export default function ImgToImgMask({
             (!selectedImage && !prompt) || (!file && !prompt) || imageUrl
           }
         >
-          Generar
+          Previsualizar
         </button>
       </div>
     </div>

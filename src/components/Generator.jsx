@@ -19,13 +19,14 @@ export default function Generator({
   downloadImage,
   previewUrl,
   setPreviewUrl,
+  setIsModalOpen,
 }) {
   const inputRef = useRef();
 
   const images = [
-    { src: "/cajonera.jpg", alt: "cajonera" },
-    { src: "/closet.jpg", alt: "closet" },
-    { src: "/escritorio.jpg", alt: "escritorio" },
+    { src: "/cajonera.jpeg", alt: "cajonera" },
+    { src: "/closet.jpeg", alt: "closet" },
+    { src: "/escritorio.jpeg", alt: "escritorio" },
   ];
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function Generator({
   const handleSelect = (image) => {
     setSelectedImage(image);
     setFile(null);
+    // setIsModalOpen(true);
     if (inputRef.current) inputRef.current.value = "";
   };
   const handleDeselect = () => setSelectedImage(null);
@@ -68,6 +70,9 @@ export default function Generator({
           prompt={promptText}
           setPrompt={setPromptText}
           downloadImage={downloadImage}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          setIsModalOpen={setIsModalOpen}
         />
       )}
 
@@ -85,6 +90,7 @@ export default function Generator({
           imageUrl={imageUrl}
           setImageUrl={setImageUrl}
           downloadImage={downloadImage}
+          setIsModalOpen={setIsModalOpen}
         />
       )}
     </>

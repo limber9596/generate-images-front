@@ -1,5 +1,5 @@
 import "../styles/NavBar.css";
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import Dropdown from "./DropDown";
 export default function NavBar({
   selected,
@@ -9,6 +9,7 @@ export default function NavBar({
   promptText,
   promptMask,
   imageUrl,
+  selectedImage,
 }) {
   // Ejemplos separados por componente
   const textPrompts = [
@@ -18,10 +19,30 @@ export default function NavBar({
   ];
 
   const maskPrompts = [
-    "Convierte este boceto en una cajonera de madera caoba con acabado color nogal realista",
-    "Convierte este boceto en un closet de madera roble con acabado color miel realista",
-    "Convierte este boceto en un escritorio de madera pino con acabado color cerezo realista",
+    "Convierte este boceto en una cajonera de madera estilo fotorealista color café claro",
+    "Convierte este boceto en un closet de madera fotorealista color café claro",
+    "Convierte este boceto en un escritorio de madera fotorealista color café claro",
   ];
+  useEffect(() => {
+    if (selectedImage?.alt && selected === "mask") {
+      const imageName = selectedImage.alt.toLowerCase(); // ejemplo: "closet"
+
+      // Busca un prompt que contenga el nombre de la imagen
+      const matchedPrompt = maskPrompts.find((prompt) =>
+        prompt.toLowerCase().includes(imageName)
+      );
+
+      if (matchedPrompt) {
+        setPromptMask(matchedPrompt);
+      }
+    }
+  }, [selectedImage, selected]);
+  // ////////////////////////////////////////////////
+  useEffect(() => {
+    if (!selectedImage && selected === "mask") {
+      setPromptMask("");
+    }
+  }, [selectedImage, selected]);
 
   const examplePrompts = selected === "text" ? textPrompts : maskPrompts;
 
@@ -41,16 +62,17 @@ export default function NavBar({
       >
         Boceto
       </button>
-
-      <Dropdown
-        examplePrompts={examplePrompts}
-        selected={selected}
-        setPromptText={setPromptText}
-        setPromptMask={setPromptMask}
-        imageUrl={imageUrl}
-        promptText={promptText}
-        promptMask={promptMask}
-      />
+      {selected !== "mask" && (
+        <Dropdown
+          examplePrompts={examplePrompts}
+          selected={selected}
+          setPromptText={setPromptText}
+          setPromptMask={setPromptMask}
+          imageUrl={imageUrl}
+          promptText={promptText}
+          promptMask={promptMask}
+        />
+      )}
     </nav>
   );
 }

@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useLoading } from "../context/LoadingContext";
 import { useMessage } from "../context/MessageContext";
 import axios from "axios";
 
-export default function TextToImage({ prompt, setPrompt }) {
+export default function TextToImage({
+  prompt,
+  setPrompt,
+  imageUrl,
+  setImageUrl,
+  setIsModalOpen,
+}) {
   //
-  const [imageUrl, setImageUrl] = useState(null);
   // const [imageUrl, setImageUrl] = useState("./exa.png");
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const { setLoading } = useLoading();
   const { showMessage } = useMessage();
   ////////////////////////////////////////////////////////////
+  useEffect(() => {
+    if (imageUrl) {
+      setIsModalOpen(true);
+    }
+  });
   const generateImage = async () => {
     console.log("entrando a la funcion generateImage");
     console.log("API URL:", apiUrl);
@@ -73,24 +83,22 @@ export default function TextToImage({ prompt, setPrompt }) {
     }
   };
   return (
-    <div className="content-text">
-      <div className="info-box">
-        <div className="input-button-wrapper">
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Escribe tu prompt"
-            className="prompt-input"
-            rows={7}
-          ></textarea>
-          <button
-            onClick={generateImage}
-            className="generate-button"
-            disabled={!!imageUrl || !prompt}
-          >
-            Generar
-          </button>
-        </div>
+    <div className="content-generate">
+      <div className="content-data">
+        <textarea
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="Escribe tu prompt"
+          className="prompt-input"
+          rows={7}
+        ></textarea>
+        <button
+          onClick={generateImage}
+          className="generate-button"
+          disabled={!!imageUrl || !prompt}
+        >
+          Generar
+        </button>
       </div>
     </div>
   );

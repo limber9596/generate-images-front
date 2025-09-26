@@ -19,15 +19,16 @@
 }
 
 .image-container img.selected {
-  border-color: #c260ca;
+  border-color: var(--color-purple-1);
 }
 .images-example img {
-  height: 94px; /* altura fija */
+  height: 120px; /* altura fija */
   width: auto; /* mantiene proporción */
   cursor: pointer;
   border: 3px solid transparent;
   border-radius: 8px;
   transition: border 0.2s;
+  filter: brightness(1.2) contrast(1.5);
 }
 img.disabled {
   opacity: 0.5;
@@ -43,7 +44,7 @@ img.disabled {
   padding: 2px 4px;
   border: 1px solid aliceblue;
   border-radius: 5px;
-  background: #c260ca;
+  background: var(--color-purple-1);
   color: aliceblue;
   font-size: 20px;
 }

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Generator from "../components/Generator";
-import Images from "../components/Images";
+import ImagesModal from "../components/ImagesModal";
+import { useImageGeneration } from "../hooks/useImageGeneration";
 import axios from "axios";
 import "../styles/HomePage.css";
 export default function HomePage() {
@@ -12,6 +13,10 @@ export default function HomePage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { generateImageMask } = useImageGeneration();
 
   const downloadImage = async () => {
     if (!imageUrl) return;
@@ -36,6 +41,10 @@ export default function HomePage() {
     }
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="content-home">
       <div className="home">
@@ -50,6 +59,7 @@ export default function HomePage() {
           promptText={promptText}
           promptMask={promptMask}
           imageUrl={imageUrl}
+          selectedImage={selectedImage}
         />
         <Generator
           selected={selected}
@@ -67,9 +77,12 @@ export default function HomePage() {
           downloadImage={downloadImage}
           previewUrl={previewUrl}
           setPreviewUrl={setPreviewUrl}
+          setIsModalOpen={setIsModalOpen}
         />
       </div>
-      <Images
+      <ImagesModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
         file={file}
         selectedImage={selectedImage}
         previewUrl={previewUrl}
@@ -79,7 +92,11 @@ export default function HomePage() {
         setSelectedImage={setSelectedImage}
         setPreviewUrl={setPreviewUrl}
         setImageUrl={setImageUrl}
-        setPrompt={setPromptMask}
+        setPromptMask={setPromptMask}
+        promptMask={promptMask}
+        promptText={promptText}
+        setPromptText={setPromptText}
+        generateImageMask={generateImageMask}
       />
     </div>
   );

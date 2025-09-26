@@ -17,3 +17,9 @@
 .title {
   color: aliceblue;
 }
+
+@media (max-width: 732px) {
+  .content-home {
+    flex-direction: column;
+  }
+}

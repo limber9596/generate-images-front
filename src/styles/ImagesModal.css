@@ -1,0 +1,120 @@
+.content-images {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.image-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.image-box img {
+  width: 300px;
+  height: auto;
+  border-radius: 5px;
+}
+.preview-img {
+  filter: brightness(1.2) contrast(1.5);
+}
+/* //////////////////////////boton reset de la imagen generada */
+.reset-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #287b9b;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin-top: 10px;
+  border: 1px solid #b1b2d0;
+}
+.reset-button:hover:enabled {
+  background-color: #1d617c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+/* ///////////////////////////boton de descarga de la imagen */
+.download-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #9d68bb;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin-top: 10px;
+  border: 1px solid #b1b2d0;
+}
+.download-button:hover:enabled {
+  background-color: #6f4a85;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.generate-box-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+/* ///////////////////////////////modal de imagenes */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: var(--bg-home);
+  padding: 28px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: -4px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  font-size: 33px;
+  cursor: pointer;
+  color: white;
+}
+/* ///////////////////////////boton para generar la imagen */
+.generate-button {
+  padding: 12px 20px;
+  background-color: #6e68bb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border: 1px solid #b1b2d0;
+  margin-top: 10px;
+}
+.generate-button:hover {
+  background-color: #514d8d;
+}
+/* ////////////////////////////////////////////////////// */
+.generate-button:disabled {
+  background-color: #ccc; /* gris */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+@media (max-width: 776px) {
+  .content-images {
+    flex-direction: column;
+  }
+}

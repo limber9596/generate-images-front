@@ -34,7 +34,7 @@
   top: 110%;
   left: 0;
   width: 100%;
-  background: white;
+  background: var(--bg-home);
   border: 1px solid #ddd;
   border-radius: 6px;
   margin-top: 4px;
@@ -44,15 +44,20 @@
 
 .dropdown-item {
   width: 100%;
-  padding: 8px 12px;
-  text-align: left;
+  padding: 10px 12px;
+  text-align: initial;
   font-size: 14px;
-  border: none;
+  border: 1px solid #ccc;
   background: transparent;
   cursor: pointer;
+  color: aliceblue;
+  justify-content: center;
+  display: flex;
 }
 
 .dropdown-item:hover,
 .dropdown-item.active {
-  background: #f0f0f0;
+  background: var(--bg-home);
+  opacity: 0.7;
+  color: aliceblue;
 }
