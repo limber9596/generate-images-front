@@ -19,9 +19,9 @@ export default function NavBar({
   ];
 
   const maskPrompts = [
-    "Convierte este boceto en una cajonera de madera estilo fotorealista color café claro",
-    "Convierte este boceto en un closet de madera fotorealista color café claro",
-    "Convierte este boceto en un escritorio de madera fotorealista color café claro",
+    "Convierte este boceto en una cajonera de madera estilo fotorealista",
+    "Convierte este boceto en un closet de madera fotorealista",
+    "Convierte este boceto en un escritorio de madera fotorealista",
   ];
   useEffect(() => {
     if (selectedImage?.alt && selected === "mask") {

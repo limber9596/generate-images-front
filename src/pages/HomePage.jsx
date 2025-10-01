@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState, useRef } from "react";
 import NavBar from "../components/NavBar";
 import Generator from "../components/Generator";
 import ImagesModal from "../components/ImagesModal";
 import { useImageGeneration } from "../hooks/useImageGeneration";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import UserInfo from "../components/UserInfo";
+import UserMenu from "../components/UserMenu";
 import "../styles/HomePage.css";
 export default function HomePage() {
   const [selected, setSelected] = useState("text"); // modo activo
@@ -18,6 +21,56 @@ export default function HomePage() {
 
   const { generateImageMask } = useImageGeneration();
 
+  const { user, logout, token } = useAuth();
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const userRole = user?.role;
+  const timer = useRef(null);
+  useEffect(() => {
+    console.log("userRole:", userRole);
+  });
+  //////////////////////////////////////77
+  useEffect(() => {
+    if (!token) return;
+
+    const updateActivity = () => {
+      axios.post(`${apiUrl}/ping`, null, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    };
+
+    // Eventos de actividad reales
+    const events = ["mousemove", "keydown", "click", "scroll"];
+    events.forEach((e) => window.addEventListener(e, updateActivity));
+
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, updateActivity));
+    };
+  }, [token]);
+
+  /////////////////////////////////////////////
+  useEffect(() => {
+    if (!token) return;
+
+    const resetTimer = () => {
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        logout();
+        alert("Sesión cerrada por inactividad");
+      }, 180000); // 3 minuto
+    };
+
+    const events = ["mousemove", "keydown", "scroll", "click"];
+    events.forEach((e) => window.addEventListener(e, resetTimer));
+
+    resetTimer(); // iniciar timer
+
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, resetTimer));
+      clearTimeout(timer.current);
+    };
+  }, [token, logout]);
+
+  //////////////////////////////////////////////////////
   const downloadImage = async () => {
     if (!imageUrl) return;
 
@@ -49,6 +102,16 @@ export default function HomePage() {
     <div className="content-home">
       <div className="home">
         <h1 className="title">LM Render</h1>
+        <div className="user-container">
+          <div className="user-menu">
+            <UserMenu />
+          </div>
+          {userRole === "dev" && (
+            <div className="user-info">
+              <UserInfo userRole={userRole} token={token} />
+            </div>
+          )}
+        </div>
 
         {/* barra de navegacion elegir solo texto o boceto */}
         <NavBar

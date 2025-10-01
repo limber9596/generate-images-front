@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useLoading } from "../context/LoadingContext";
 import { useMessage } from "../context/MessageContext";
+import { useAuth } from "../context/AuthContext";
 
 export function useImageGeneration() {
   const { setLoading } = useLoading();
   const { showMessage } = useMessage();
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useAuth();
   // --- Generar imagen con máscara ---
   const generateImageMask = async ({
     prompt,
@@ -39,7 +40,10 @@ export function useImageGeneration() {
         `${apiUrl}/generate-image-mask`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -50,45 +54,24 @@ export function useImageGeneration() {
         showMessage("Error generando imagen con máscara");
       }
     } catch (error) {
-      console.error(error);
       if (error.response) {
-        showMessage(error.response.data.msg);
+        // El servidor respondió con un error (400, 500, etc.)
+        showMessage(error.response.data.error || "Error del servidor");
+
+        if (error.response.status === 400) {
+          logout(); // solo si es necesario
+        }
+      } else if (error.request) {
+        // La petición se envió pero no hubo respuesta
+        showMessage("No se pudo conectar con el servidor");
       } else {
-        showMessage("No se pudo conectar con el servidor.");
+        // Otro tipo de error
+        showMessage("Error inesperado: " + error.message);
       }
     } finally {
       setLoading(false);
     }
   };
-
-  //   // --- Generar imagen solo desde texto ---
-  //   const generateImageText = async ({ prompt, setImageUrl }) => {
-  //     setLoading(true);
-  //     if (!prompt) return showMessage("Escribe un prompt");
-  //     setImageUrl("");
-
-  //     try {
-  //       const response = await axios.post(`${apiUrl}/generate-image-text`, {
-  //         prompt,
-  //       });
-
-  //       const data = response.data;
-  //       if (data.imageUrl) {
-  //         setImageUrl(data.imageUrl);
-  //       } else {
-  //         showMessage("Error generando imagen desde texto");
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       if (error.response) {
-  //         showMessage(error.response.data.msg);
-  //       } else {
-  //         showMessage("No se pudo conectar con el servidor.");
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
 
   return { generateImageMask };
 }

@@ -14,8 +14,12 @@ export default function MessageModal({ isOpen, mensaje, onClose }) {
           bottom: "auto",
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
+          zIndex: 3001,
         },
-        overlay: { backgroundColor: "rgba(0, 0, 0, 0.8)" },
+        overlay: {
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          zIndex: 3000, // overlay también por encima del otro modal
+        },
       }}
     >
       <div className="modal-mensaje">

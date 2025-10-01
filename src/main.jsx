@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { LoadingProvider } from "./context/LoadingContext.jsx";
 import { MessageProvider } from "./context/MessageContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import Modal from "react-modal"; // <-- Importa Modal
 
 // <-- Esto es lo importante
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <LoadingProvider>
         <MessageProvider>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </MessageProvider>
       </LoadingProvider>
     </BrowserRouter>

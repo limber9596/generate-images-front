@@ -1,0 +1,23 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+  background: var(--bg-home);
+}
+
+.login-box {
+  width: 332px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: aliceblue;
+  opacity: 0.8;
+  padding: 20px;
+  border-radius: 7px;
+}
+.login-box img {
+  width: 100%;
+  border-radius: 7px;
+  margin: 0;
+}

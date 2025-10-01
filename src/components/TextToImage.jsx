@@ -1,6 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import { useLoading } from "../context/LoadingContext";
 import { useMessage } from "../context/MessageContext";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 
 export default function TextToImage({
@@ -16,6 +17,8 @@ export default function TextToImage({
 
   const { setLoading } = useLoading();
   const { showMessage } = useMessage();
+
+  const { token } = useAuth();
   ////////////////////////////////////////////////////////////
   useEffect(() => {
     if (imageUrl) {
@@ -25,14 +28,22 @@ export default function TextToImage({
   const generateImage = async () => {
     console.log("entrando a la funcion generateImage");
     console.log("API URL:", apiUrl);
+    console.log("Token usado:", token);
 
     if (!prompt) return alert("Escribe un prompt");
     setImageUrl("");
     setLoading(true);
     try {
-      const response = await axios.post(`${apiUrl}/generate-image-text`, {
-        prompt,
-      });
+      const response = await axios.post(
+        `${apiUrl}/generate-image-text`,
+        { prompt },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = response.data;
 
       if (data.imageUrl) {
@@ -60,28 +71,6 @@ export default function TextToImage({
     }
   };
 
-  const downloadImage = async () => {
-    if (!imageUrl) return;
-
-    try {
-      const response = await axios.get(imageUrl, {
-        responseType: "blob", // importante
-      });
-
-      const blob = new Blob([response.data], { type: "image/png" });
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "imagen_generada.png";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error descargando la imagen:", error);
-    }
-  };
   return (
     <div className="content-generate">
       <div className="content-data">
