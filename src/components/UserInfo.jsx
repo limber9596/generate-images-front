@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/UserInfo.css";
+import { DateTime } from "luxon";
 export default function UserInfo({ userRole, token }) {
   const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const tz = import.meta.env.VITE_APP_TIMEZONE || "UTC";
   // Traer usuarios solo si es dev
   useEffect(() => {
     if (userRole !== "dev") return;
@@ -14,6 +15,13 @@ export default function UserInfo({ userRole, token }) {
       fetchUsers();
     }
   }, [userRole, isModalOpen]);
+
+  const formatLastActivity = (lastActivity) => {
+    if (!lastActivity) return "—";
+    return DateTime.fromISO(lastActivity, { zone: "utc" })
+      .setZone(tz)
+      .toFormat("dd/MM/yyyy, hh:mm:ss a");
+  };
 
   const fetchUsers = async () => {
     try {
@@ -76,7 +84,7 @@ export default function UserInfo({ userRole, token }) {
                         <td>{firstTwoWords}</td>
                         <td>{u.email}</td>
                         <td>{u.image_count}</td>
-                        <td>{new Date(u.last_activity).toLocaleString()}</td>
+                        <td>{formatLastActivity(u.last_activity)}</td>
                         <td>{u.status}</td>
                         <td>
                           <button onClick={() => handleReset(u.id)}>
