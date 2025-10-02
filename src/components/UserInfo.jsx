@@ -6,20 +6,21 @@ export default function UserInfo({ userRole, token }) {
   const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
-  const tz = import.meta.env.VITE_APP_TIMEZONE || "UTC";
-  // Traer usuarios solo si es dev
+  const tz = import.meta.env.VITE_APP_TIMEZONE || "America/Guayaquil";
   useEffect(() => {
     if (userRole !== "dev") return;
 
     if (isModalOpen) {
       fetchUsers();
+      console.log("Usuarios obtenidos:", users);
     }
   }, [userRole, isModalOpen]);
 
   const formatLastActivity = (lastActivity) => {
     if (!lastActivity) return "—";
-    return DateTime.fromISO(lastActivity, { zone: "utc" })
-      .setZone(tz)
+
+    return DateTime.fromISO(lastActivity) // <-- usar fromSQL para timestamp sin zona
+      .setZone(tz) // <-- convertir a la zona deseada
       .toFormat("dd/MM/yyyy, hh:mm:ss a");
   };
 
