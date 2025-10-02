@@ -36,6 +36,7 @@ export default function HomePage() {
       axios.post(`${apiUrl}/ping`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("Actividad detectada");
     };
 
     // Eventos de actividad reales
