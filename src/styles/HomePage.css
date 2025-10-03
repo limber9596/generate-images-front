@@ -8,7 +8,6 @@
   gap: 40px;
 }
 .home {
-  width: 368px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -21,4 +20,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 400px) {
+  .home {
+    width: 340px;
+  }
 }
