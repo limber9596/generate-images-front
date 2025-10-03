@@ -2,11 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/UserInfo.css";
 import { DateTime } from "luxon";
+import ConfirmDialogModal from "./ConfirmDialogModal";
+import { useLoading } from "../context/LoadingContext";
 export default function UserInfo({ userRole, token }) {
   const [users, setUsers] = useState([]);
+  const [userId, setUserId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
   const tz = import.meta.env.VITE_APP_TIMEZONE || "America/Guayaquil";
+  const { setLoading } = useLoading();
   useEffect(() => {
     if (userRole !== "dev") return;
 
@@ -25,6 +30,7 @@ export default function UserInfo({ userRole, token }) {
   };
 
   const fetchUsers = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`${apiUrl}/users`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -33,18 +39,31 @@ export default function UserInfo({ userRole, token }) {
       console.log("Usuarios obtenidos:", res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleReset = async (userId) => {
-    await axios.post(
-      `${apiUrl}/reset-image-count`,
-      { userId },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, image_count: 0 } : u))
-    );
+  const handleResetConfirm = async (userId) => {
+    setOpenDialog(true);
+    setUserId(userId);
+  };
+  const resetImageCount = async (userId) => {
+    setLoading(true);
+    try {
+      await axios.post(
+        `${apiUrl}/reset-image-count`,
+        { userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      await fetchUsers();
+      setOpenDialog(false);
+    } catch (error) {
+      console.error("Error al resetear el contador de imágenes:", error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (userRole !== "dev") return null;
@@ -66,6 +85,7 @@ export default function UserInfo({ userRole, token }) {
               <table className="user-table">
                 <thead>
                   <tr>
+                    <th>Id</th>
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Imagenes</th>
@@ -82,13 +102,14 @@ export default function UserInfo({ userRole, token }) {
                       .join(" ");
                     return (
                       <tr key={u.id}>
+                        <td>{u.id}</td>
                         <td>{firstTwoWords}</td>
                         <td>{u.email}</td>
                         <td>{u.image_count}</td>
                         <td>{formatLastActivity(u.last_activity)}</td>
                         <td>{u.status}</td>
                         <td>
-                          <button onClick={() => handleReset(u.id)}>
+                          <button onClick={() => handleResetConfirm(u.id)}>
                             Reset
                           </button>
                         </td>
@@ -101,6 +122,13 @@ export default function UserInfo({ userRole, token }) {
           </div>
         </div>
       )}
+
+      <ConfirmDialogModal
+        isOpen={openDialog}
+        onClose={() => setOpenDialog(false)}
+        onConfirm={() => resetImageCount(userId)}
+        userId={userId}
+      />
     </>
   );
 }

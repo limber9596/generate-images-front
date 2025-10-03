@@ -39,20 +39,20 @@
 /* .user-table th {
   background-color: #f2f2f2;
 } */
-@media (max-width: 917px) {
+@media (max-width: 951px) {
   .table-container {
     width: 600px;
   }
 }
 
-@media (max-width: 675px) {
+@media (max-width: 693px) {
   .table-container {
     width: 400px;
   }
 }
 
-@media (max-width: 481px) {
+@media (max-width: 492px) {
   .table-container {
-    width: 330px;
+    width: 300px;
   }
 }

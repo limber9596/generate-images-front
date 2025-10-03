@@ -1,5 +1,4 @@
 .content-home {
-  padding: 40px;
   background: #355c7d;
   background: var(--bg-home);
   height: 100vh;
@@ -22,10 +21,4 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-@media (max-width: 732px) {
-  .content-home {
-    flex-direction: column;
-  }
 }
