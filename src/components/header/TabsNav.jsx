@@ -1,7 +1,7 @@
-import "../styles/NavBar.css";
+import "../../styles/NavBar.css";
 import React, { use, useEffect } from "react";
 import Dropdown from "./DropDown";
-export default function NavBar({
+export default function TabsNav({
   selected,
   setSelected,
   setPromptText,

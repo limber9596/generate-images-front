@@ -1,12 +1,12 @@
 import React, { use, useEffect, useState, useRef } from "react";
-import NavBar from "../components/NavBar";
-import Generator from "../components/Generator";
-import ImagesModal from "../components/ImagesModal";
+import TabsNav from "../components/header/TabsNav";
+import Generator from "../components/main-generate/Generator";
+import ImagesModal from "../components/modals/ImagesModal";
 import { useImageGeneration } from "../hooks/useImageGeneration";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
-import UserInfo from "../components/UserInfo";
-import UserMenu from "../components/UserMenu";
+import Header from "../components/header/Header";
+import ExampleImages from "../components/ExampleImages";
 import "../styles/HomePage.css";
 export default function HomePage() {
   const [selected, setSelected] = useState("text"); // modo activo
@@ -25,9 +25,36 @@ export default function HomePage() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const userRole = user?.role;
   const timer = useRef(null);
+
+  const images = [
+    { src: "/cajonera.jpeg", alt: "cajonera" },
+    { src: "/closet.jpeg", alt: "closet" },
+    { src: "/escritorio.jpeg", alt: "escritorio" },
+  ];
+  const handleSelect = (image) => {
+    setSelectedImage(image);
+    setFile(null);
+    // setIsModalOpen(true);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [file]);
+
+  const handleDeselect = () => setSelectedImage(null);
   useEffect(() => {
     console.log("userRole:", userRole);
   });
+
   //////////////////////////////////////77
   useEffect(() => {
     if (!token) return;
@@ -101,7 +128,7 @@ export default function HomePage() {
   return (
     <div className="content-home">
       <div className="home">
-        <h1 className="title">LM Render</h1>
+        {/* <h1 className="title">LM Render</h1>
         <div className="user-container">
           <div className="user-menu">
             <UserMenu />
@@ -111,10 +138,10 @@ export default function HomePage() {
               <UserInfo userRole={userRole} token={token} />
             </div>
           )}
-        </div>
-
+        </div> */}
+        <Header userRole={userRole} token={token} />
         {/* barra de navegacion elegir solo texto o boceto */}
-        <NavBar
+        <TabsNav
           selected={selected}
           setSelected={setSelected}
           setPromptText={setPromptText}
@@ -124,6 +151,21 @@ export default function HomePage() {
           imageUrl={imageUrl}
           selectedImage={selectedImage}
         />
+        {selected === "mask" && (
+          <div className="images-example">
+            {images.map((image) => (
+              <ExampleImages
+                key={image.src}
+                image={image}
+                selectedImage={selectedImage}
+                file={file}
+                handleSelect={handleSelect}
+                handleDeselect={handleDeselect}
+                imageUrl={imageUrl}
+              />
+            ))}
+          </div>
+        )}
         <Generator
           selected={selected}
           setSelected={setSelected}
@@ -141,6 +183,7 @@ export default function HomePage() {
           previewUrl={previewUrl}
           setPreviewUrl={setPreviewUrl}
           setIsModalOpen={setIsModalOpen}
+          inputRef={inputRef}
         />
       </div>
       <ImagesModal

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/UserInfo.css";
+import "../../styles/UserInfo.css";
 import { DateTime } from "luxon";
-import ConfirmDialogModal from "./ConfirmDialogModal";
-import { useLoading } from "../context/LoadingContext";
+import ConfirmDialogModal from "../modals/ConfirmDialogModal";
+import { useLoading } from "../../context/LoadingContext";
 export default function UserInfo({ userRole, token }) {
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState("");

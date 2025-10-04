@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/ImagesModal.css";
+import "../../styles/ImagesModal.css";
 
 export default function ImagesModal({
   file,

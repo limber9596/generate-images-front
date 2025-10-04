@@ -1,7 +1,7 @@
 import React, { useState, useEffect, use } from "react";
-import { useLoading } from "../context/LoadingContext";
-import { useMessage } from "../context/MessageContext";
-import { useAuth } from "../context/AuthContext";
+import { useLoading } from "../../context/LoadingContext";
+import { useMessage } from "../../context/MessageContext";
+import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 
 export default function TextToImage({

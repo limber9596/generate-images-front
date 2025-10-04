@@ -1,7 +1,7 @@
 import { use, useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
-import "../styles/UserMenu.css";
-import defaultAvatar from "../../public/user.png";
+import { useAuth } from "../../context/AuthContext";
+import "../../styles/UserMenu.css";
+// import defaultAvatar from "../../public/user.png";
 export default function UserMenu() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
@@ -13,7 +13,7 @@ export default function UserMenu() {
       {/* Avatar */}
       <div className="avatar" onClick={() => setOpen(!open)}>
         <img
-          src={user?.picture || defaultAvatar}
+          src={user?.picture}
           alt={"sin-foto"}
           referrerPolicy="no-referrer"
         />
@@ -23,11 +23,7 @@ export default function UserMenu() {
       {open && (
         <div className="dropdown">
           <div className="dropdown-content">
-            <img
-              className="dropdown-img"
-              src={user?.picture || "/user.png"}
-              alt="sin-foto"
-            />
+            <img className="dropdown-img" src={user?.picture} alt="sin-foto" />
             <span className="dropdown-name">
               {user?.name ? user.name.split(" ").slice(0, 2).join(" ") : ""}
             </span>

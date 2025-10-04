@@ -1,6 +1,6 @@
 // MessageContext.tsx
 import { createContext, useContext, useState } from "react";
-import MessageModal from "../components/MessageModal";
+import MessageModal from "../components/modals/MessageModal";
 
 const MessageContext = createContext(null);
 

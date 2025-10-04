@@ -1,5 +1,5 @@
 import { Menu } from "@headlessui/react";
-import "../styles/DropDown.css";
+import "../../styles/DropDown.css";
 
 export default function Dropdown({
   examplePrompts,

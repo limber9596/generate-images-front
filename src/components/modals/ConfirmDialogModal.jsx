@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/ConfirmDialogModal.css"; // importa los estilos
+import "../../styles/ConfirmDialogModal.css"; // importa los estilos
 
 const ConfirmDialogModal = ({ isOpen, onClose, onConfirm, userId }) => {
   if (!isOpen) return null;
