@@ -1,27 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
 import TextToImage from "../main-generate/TextToImage";
 import ImgToImgMask from "../main-generate/ImgToImgMask";
+import { useImageGenerator } from "../../context/ImageGenContext";
+
 import ExampleImages from "../ExampleImages";
 import "../../styles/Generator.css";
+import { use } from "react";
 
-export default function Generator({
-  selected,
-  setPromptText,
-  setPromptMask,
-  promptText,
-  promptMask,
-  imageUrl,
-  setImageUrl,
-  setSelectedImage,
-  selectedImage,
-  file,
-  setFile,
-  downloadImage,
-  previewUrl,
-  setPreviewUrl,
-  setIsModalOpen,
-  inputRef,
-}) {
+export default function Generator() {
+  const {
+    selected,
+    setPromptText,
+    setPromptMask,
+    promptText,
+    promptMask,
+    imageUrl,
+    setImageUrl,
+    setSelectedImage,
+    selectedImage,
+    file,
+    setFile,
+    downloadImage,
+    previewUrl,
+    setPreviewUrl,
+    setIsModalOpen,
+    inputRef,
+    isModalOpen,
+  } = useImageGenerator();
+  useEffect(() => {
+    console.log("setIsModalOpen desde Generator:", isModalOpen);
+  });
   return (
     <>
       {selected === "text" && (
@@ -50,6 +58,7 @@ export default function Generator({
           setImageUrl={setImageUrl}
           downloadImage={downloadImage}
           setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
         />
       )}
     </>

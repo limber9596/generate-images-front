@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function ImgToImgMask({
   prompt,
   setPrompt,
@@ -9,6 +11,7 @@ export default function ImgToImgMask({
   imageUrl,
   setImageUrl,
   setIsModalOpen,
+  isModalOpen,
 }) {
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -21,6 +24,7 @@ export default function ImgToImgMask({
   const handleClick = () => {
     inputRef.current.click(); // simula clic en el input escondid
   };
+
   return (
     <div className="content-generate">
       <div className="content-data">

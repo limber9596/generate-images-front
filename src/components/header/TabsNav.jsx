@@ -1,16 +1,9 @@
 import "../../styles/NavBar.css";
 import React, { use, useEffect } from "react";
 import Dropdown from "./DropDown";
-export default function TabsNav({
-  selected,
-  setSelected,
-  setPromptText,
-  setPromptMask,
-  promptText,
-  promptMask,
-  imageUrl,
-  selectedImage,
-}) {
+import { useImageGenerator } from "../../context/ImageGenContext";
+
+export default function TabsNav() {
   // Ejemplos separados por componente
   const textPrompts = [
     "Diseña una sala moderna minimalista con sofás grises",
@@ -23,6 +16,17 @@ export default function TabsNav({
     "Convierte este boceto en un closet de madera fotorealista",
     "Convierte este boceto en un escritorio de madera fotorealista",
   ];
+  const {
+    selected,
+    setSelected,
+    setPromptText,
+    setPromptMask,
+    promptText,
+    promptMask,
+    imageUrl,
+    selectedImage,
+  } = useImageGenerator();
+
   useEffect(() => {
     if (selectedImage?.alt && selected === "mask") {
       const imageName = selectedImage.alt.toLowerCase(); // ejemplo: "closet"

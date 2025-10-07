@@ -1,33 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/ImagesModal.css";
+import { useImageGenerator } from "../../context/ImageGenContext";
 
-export default function ImagesModal({
-  file,
-  selectedImage,
-  previewUrl,
-  imageUrl,
-  downloadImage,
-  setFile,
-  setSelectedImage,
-  setPreviewUrl,
-  setImageUrl,
-  setPromptMask,
-  promptMask,
-  setPromptText,
-  promptText,
-  isOpen,
-  onClose,
-  generateImageMask,
-}) {
-  if (!isOpen) return null; // si el modal está cerrado no renderiza nada
+export default function ImagesModal({}) {
+  const {
+    file,
+    selectedImage,
+    previewUrl,
+    imageUrl,
+    downloadImage,
+    setFile,
+    setSelectedImage,
+    setPreviewUrl,
+    setImageUrl,
+    setPromptMask,
+    promptMask,
+    setPromptText,
+    promptText,
+    setIsModalOpen,
+    generateImageMask,
+    isModalOpen,
+    width,
+    heigth,
+    resizedImage,
+    setResizedImage,
+  } = useImageGenerator();
 
+  useEffect(() => {
+    if (width && heigth) {
+      console.log("Dimensiones desde imagenModal:", width, heigth);
+    }
+  }, [width, heigth]);
+
+  useEffect(() => {
+    if (!imageUrl || !width || !heigth) return;
+
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // por si la imagen viene de otra URL
+    img.src = imageUrl;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width; // tamaño deseado
+      canvas.height = heigth; // tamaño deseado
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      const newImageUrl = canvas.toDataURL("image/png");
+      setResizedImage(newImageUrl); // ya la imagen con la proporción correcta
+    };
+  }, [imageUrl, width, heigth]);
+  //////////////////////////////////////////////
+
+  if (!isModalOpen) return null;
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         {/* botón cerrar */}
 
-        {!imageUrl && (
-          <button className="close-button" onClick={onClose}>
+        {!resizedImage && (
+          <button className="close-button" onClick={handleClose}>
             &times;
           </button>
         )}
@@ -44,15 +79,18 @@ export default function ImagesModal({
 
           {/* ////// imagen generada */}
           <div className="image-box">
-            {imageUrl && (
+            {resizedImage && (
               <>
                 <img
-                  src={imageUrl}
+                  src={resizedImage}
                   alt="Generada"
                   className="generated-image"
                 />
                 <div className="generate-box-buttons">
-                  <button onClick={downloadImage} className="download-button">
+                  <button
+                    onClick={() => downloadImage(resizedImage)}
+                    className="download-button"
+                  >
                     Descargar
                   </button>
                   <button
@@ -63,7 +101,7 @@ export default function ImagesModal({
                       setImageUrl(null);
                       setPromptText("");
                       setPromptMask("");
-                      onClose();
+                      handleClose();
                     }}
                     className="reset-button"
                   >
@@ -74,7 +112,7 @@ export default function ImagesModal({
             )}
           </div>
         </div>
-        {!imageUrl && (
+        {!resizedImage && (
           <button
             onClick={() =>
               generateImageMask({

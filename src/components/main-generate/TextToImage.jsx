@@ -25,6 +25,7 @@ export default function TextToImage({
       setIsModalOpen(true);
     }
   });
+
   const generateImage = async () => {
     console.log("entrando a la funcion generateImage");
     console.log("API URL:", apiUrl);

@@ -9,13 +9,13 @@
   flex-direction: column;
 }
 .image-box img {
-  width: 300px;
+  width: 374px;
   height: auto;
   border-radius: 5px;
 }
-.preview-img {
+/* .preview-img {
   filter: brightness(1.2) contrast(1.5);
-}
+} */
 /* //////////////////////////boton reset de la imagen generada */
 .reset-button {
   display: inline-block;
@@ -113,8 +113,16 @@
   cursor: not-allowed;
   opacity: 0.6;
 }
-@media (max-width: 776px) {
+@media (max-width: 855px) {
   .content-images {
     flex-direction: column;
+  }
+}
+@media (max-width: 470px) {
+  .image-box img {
+    width: 100%;
+  }
+  .modal-content {
+    margin: 15px;
   }
 }

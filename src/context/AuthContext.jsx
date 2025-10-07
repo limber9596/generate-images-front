@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-
+import { logoutBackend } from "../utils/auth";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -25,10 +25,10 @@ export function AuthProvider({ children }) {
   };
 
   // Cerrar sesión
-  const logout = () => {
+  const logout = async () => {
+    if (token) await logoutBackend(token);
     setUser(null);
     setToken(null);
-
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   };

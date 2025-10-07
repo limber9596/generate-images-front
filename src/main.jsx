@@ -6,6 +6,7 @@ import "./index.css";
 import { LoadingProvider } from "./context/LoadingContext.jsx";
 import { MessageProvider } from "./context/MessageContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { ImageGeneratorProvider } from "./context/ImageGenContext.jsx";
 import Modal from "react-modal"; // <-- Importa Modal
 
 // <-- Esto es lo importante
@@ -14,13 +15,15 @@ Modal.setAppElement("#root");
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <LoadingProvider>
-        <MessageProvider>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </MessageProvider>
-      </LoadingProvider>
+      <AuthProvider>
+        <LoadingProvider>
+          <MessageProvider>
+            <ImageGeneratorProvider>
+              <App />
+            </ImageGeneratorProvider>
+          </MessageProvider>
+        </LoadingProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>
 );
