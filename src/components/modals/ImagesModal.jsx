@@ -61,7 +61,7 @@ export default function ImagesModal({}) {
       <div className="modal-content">
         {/* botón cerrar */}
 
-        {!resizedImage && (
+        {!imageUrl && (
           <button className="close-button" onClick={handleClose}>
             &times;
           </button>
@@ -79,7 +79,7 @@ export default function ImagesModal({}) {
 
           {/* ////// imagen generada */}
           <div className="image-box">
-            {resizedImage && (
+            {imageUrl && (
               <>
                 <img
                   src={resizedImage}
@@ -112,7 +112,7 @@ export default function ImagesModal({}) {
             )}
           </div>
         </div>
-        {!resizedImage && (
+        {!imageUrl && (
           <button
             onClick={() =>
               generateImageMask({
